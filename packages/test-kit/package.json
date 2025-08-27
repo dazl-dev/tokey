@@ -14,11 +14,11 @@
     "!*/test",
     "!*/tsconfig.{json,tsbuildinfo}"
   ],
-  "author": "Wix.com",
+  "author": "Dazl",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wixplosives/tokey.git",
+    "url": "git+https://github.com/dazl-dev/tokey.git",
     "directory": "packages/test-kit"
   }
 }

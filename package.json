@@ -33,7 +33,7 @@
   "engines": {
     "node": ">=22"
   },
-  "repository": "git@github.com:wixplosives/tokey.git",
-  "author": "Wix.com",
+  "repository": "git@github.com:dazl-dev/tokey.git",
+  "author": "Dazl",
   "license": "MIT"
 }

@@ -26,11 +26,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "Wix.com",
+  "author": "Dazl",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wixplosives/tokey.git",
+    "url": "git+https://github.com/dazl-dev/tokey.git",
     "directory": "packages/css-selector-parser"
   },
   "sideEffects": false
