@@ -8,8 +8,8 @@ import type {
     ImmutableSelector,
     ImmutableSelectorList,
     ImmutableSelectorNode,
-} from '../ast-types';
-import { walk } from './walk';
+} from '../ast-types.ts';
+import { walk } from './walk.ts';
 
 export interface GroupCompoundOptions {
     splitPseudoElements?: boolean;

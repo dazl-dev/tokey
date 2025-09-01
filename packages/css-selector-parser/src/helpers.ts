@@ -1,14 +1,14 @@
-import type { CSSSelectorToken } from './tokenizer';
+import { type Token, last } from '@tokey/core';
 import type {
     Combinator,
     Comment,
-    Selector,
-    Nth,
     NamespacedNode,
+    Nth,
+    Selector,
     SelectorList,
     SelectorNode,
-} from './ast-types';
-import { Token, last } from '@tokey/core';
+} from './ast-types.ts';
+import type { CSSSelectorToken } from './tokenizer.ts';
 
 // create ast nodes
 

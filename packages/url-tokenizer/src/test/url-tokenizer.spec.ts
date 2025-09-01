@@ -1,5 +1,5 @@
 import { createParseTester } from '@tokey/test-kit';
-import { CSSCodeToken, CSSCodeTokenGroup, tokenizeCSSUrls } from '@tokey/url-tokenizer';
+import { type CSSCodeToken, type CSSCodeTokenGroup, tokenizeCSSUrls } from '@tokey/url-tokenizer';
 
 function createGroup(tokens: CSSCodeToken[]): CSSCodeTokenGroup {
     return {

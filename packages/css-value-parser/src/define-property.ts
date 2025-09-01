@@ -1,5 +1,5 @@
-import type { CSSValueAST, BuildVarAst } from './ast-types';
-import type { ParseResults } from './value-parser';
+import type { CSSValueAST, BuildVarAst } from './ast-types.ts';
+import type { ParseResults } from './value-parser.ts';
 
 export function defineProperty<
     FORMATS extends string,

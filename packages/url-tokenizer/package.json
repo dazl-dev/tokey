@@ -2,6 +2,7 @@
   "name": "@tokey/url-tokenizer",
   "description": "tokenize css url() syntax",
   "version": "0.1.0",
+  "type": "module",
   "exports": {
     ".": "./dist/url-tokenizer.js",
     "./package.json": "./package.json"

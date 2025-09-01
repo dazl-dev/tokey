@@ -1,3 +1,3 @@
-export * from './css-value-tokenizer';
-export * from './separated-shallow-list';
-export * from './strips-comments';
+export * from './css-value-tokenizer.ts';
+export * from './separated-shallow-list.ts';
+export * from './strips-comments.ts';

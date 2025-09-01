@@ -1,4 +1,4 @@
-import { NthParser } from './nth-parser';
+import { NthParser } from './nth-parser.ts';
 import type {
     ImmutableId,
     ImmutableAttribute,
@@ -23,7 +23,7 @@ import type {
     ImmutableNthSelectorList,
     ImmutableFunctionalSelector,
     ImmutableNamespacedNode,
-} from './ast-types';
+} from './ast-types.ts';
 
 export function stringifySelectorAst(
     value: ImmutableSelectorNode | ImmutableSelectorList | ImmutableNthSelectorList,

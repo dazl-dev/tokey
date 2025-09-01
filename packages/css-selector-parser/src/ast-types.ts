@@ -1,4 +1,4 @@
-import type { Immutable } from './types';
+import type { Immutable } from './types.ts';
 import type { Token } from '@tokey/core';
 
 export interface Selector extends Omit<Token<'selector'>, 'value'> {

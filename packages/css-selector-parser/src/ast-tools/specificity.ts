@@ -1,5 +1,5 @@
-import type { ImmutableSelectorNode, ImmutablePseudoClass, SelectorNode } from '../ast-types';
-import { walk } from './walk';
+import type { ImmutableSelectorNode, ImmutablePseudoClass, SelectorNode } from '../ast-types.ts';
+import { walk } from './walk.ts';
 
 export type Specificity = [
     inlineLevel: number,

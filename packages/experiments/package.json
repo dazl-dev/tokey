@@ -3,6 +3,7 @@
   "name": "@tokey/experiments",
   "description": "experimental tokenizers and parsers",
   "version": "0.1.0",
+  "type": "module",
   "exports": {
     ".": "./dist/index.js",
     "./package.json": "./package.json"

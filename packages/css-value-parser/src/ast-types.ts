@@ -4,7 +4,7 @@ import type {
     frequencyValidUnits,
     resolutionValidUnits,
     timeValidUnits,
-} from './units';
+} from './units.ts';
 
 export interface CSSValueAST<TYPE extends string> {
     type: TYPE;

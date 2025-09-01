@@ -1,16 +1,16 @@
 import {
-    tokenize,
-    isStringDelimiter,
-    isWhitespace,
     createToken,
-    getText,
-    isComment,
     getJSCommentStartType,
     getMultilineCommentStartType,
-    isCommentEnd,
+    getText,
     getUnclosedComment,
-    Token,
-    Descriptors,
+    isComment,
+    isCommentEnd,
+    isStringDelimiter,
+    isWhitespace,
+    tokenize,
+    type Descriptors,
+    type Token,
 } from '@tokey/core';
 
 const isDelimiter = () => false;

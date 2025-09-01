@@ -1,36 +1,36 @@
+import { Seeker, isComment } from '@tokey/core';
 import {
-    BaseAstNode,
+    angle,
+    call,
+    color,
+    comment,
+    cssWideKeyword,
     customIdent,
     dashedIdent,
+    flex,
+    frequency,
+    integer,
+    invalid,
+    length,
     literal,
-    cssWideKeyword,
+    number,
+    percentage,
+    resolution,
     space,
     string,
-    number,
-    unknownUnit,
-    length,
-    percentage,
-    angle,
     time,
-    flex,
-    call,
-    frequency,
-    resolution,
-    integer,
-    color,
-    invalid,
-    comment,
-} from './ast-types';
+    unknownUnit,
+    type BaseAstNode,
+} from './ast-types.ts';
+import { tokenizeValue, type CSSValueToken } from './tokenizer.ts';
 import {
-    lengthValidUnits,
     angleValidUnits,
-    timeValidUnits,
     frequencyValidUnits,
+    lengthValidUnits,
     resolutionValidUnits,
-} from './units';
-import { tokenizeValue, CSSValueToken } from './tokenizer';
-import { stringifyCSSValue } from './value-stringify';
-import { Seeker, isComment } from '@tokey/core';
+    timeValidUnits,
+} from './units.ts';
+import { stringifyCSSValue } from './value-stringify.ts';
 
 export type ParseResults = Array<BaseAstNode>;
 

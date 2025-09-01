@@ -2,6 +2,7 @@
   "name": "@tokey/imports-parser",
   "description": "parser for esm like imports",
   "version": "1.0.0",
+  "type": "module",
   "exports": {
     ".": "./dist/imports-parser.js",
     "./package.json": "./package.json"

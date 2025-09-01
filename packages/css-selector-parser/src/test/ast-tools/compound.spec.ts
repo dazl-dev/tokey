@@ -1,17 +1,17 @@
 import {
-    parseCssSelector,
     groupCompoundSelectors,
+    parseCssSelector,
     splitCompoundSelectors,
-    SelectorList,
-    CommentWithNoSpacing,
-    ImmutableSelectorList,
-    ImmutableSelector,
-    Selector,
-    PseudoClass,
-    Nth,
+    type CommentWithNoSpacing,
+    type ImmutableSelector,
+    type ImmutableSelectorList,
+    type Nth,
+    type PseudoClass,
+    type Selector,
+    type SelectorList,
 } from '@tokey/css-selector-parser';
-import { createNode } from '../test-kit/parsing';
 import { expect } from 'chai';
+import { createNode } from '../test-kit/parsing.ts';
 
 describe(`ast-tools/compound`, () => {
     it(`should split a given selector list according to dom targets (by combinators)`, () => {
