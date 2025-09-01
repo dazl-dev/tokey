@@ -1,4 +1,4 @@
-import { isMatch } from './is-match';
+import { isMatch } from './is-match.ts';
 export function testTokenizer<T, U>(input: T, aFn: (input: T) => U, expected: U) {
     const actual = aFn(input);
     const normInput = JSON.stringify(input);

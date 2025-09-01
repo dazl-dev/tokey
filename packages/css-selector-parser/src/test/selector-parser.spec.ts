@@ -1,4 +1,4 @@
-import { test, createNode } from './test-kit/parsing';
+import { test, createNode } from './test-kit/parsing.ts';
 
 describe(`selector-parser`, () => {
     describe(`selector types`, () => {

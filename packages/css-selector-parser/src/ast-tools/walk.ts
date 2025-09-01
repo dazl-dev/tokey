@@ -4,7 +4,7 @@ import type {
     FunctionalSelector,
     ImmutableSelectorNode,
     ImmutableSelectorList,
-} from '../ast-types';
+} from '../ast-types.ts';
 
 export interface WalkOptions {
     visitList?: SelectorNode['type'][];

@@ -1,4 +1,4 @@
-import { tokenize, createToken, Token, Seeker, getText, last } from '@tokey/core';
+import { Seeker, createToken, getText, last, tokenize, type Token } from '@tokey/core';
 
 type RangeMultipliers = '!' | '?' | '+' | '*';
 

@@ -11,7 +11,7 @@ import {
     keyword,
     literal,
     property,
-} from '../value-syntax-parser';
+} from '../value-syntax-parser.ts';
 
 import * as webCssRef from '@webref/css';
 

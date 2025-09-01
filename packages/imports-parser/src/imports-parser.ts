@@ -1,15 +1,15 @@
 import {
-    Seeker,
-    tokenize,
-    isComment,
-    isStringDelimiter,
-    isWhitespace,
     createToken,
     getJSCommentStartType,
-    isCommentEnd,
     getUnclosedComment,
-    Token,
-    Descriptors,
+    isComment,
+    isCommentEnd,
+    isStringDelimiter,
+    isWhitespace,
+    Seeker,
+    tokenize,
+    type Descriptors,
+    type Token,
 } from '@tokey/core';
 
 type Delimiters = ',' | ';' | ':' | '{' | '}' | '[' | ']' | '(' | ')' | '*';

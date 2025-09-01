@@ -1,18 +1,18 @@
 import {
-    tokenize,
-    isStringDelimiter,
-    isWhitespace,
     createToken,
-    groupTokens,
-    trimTokens,
-    isComment,
     getJSCommentStartType,
     getMultilineCommentStartType,
-    isCommentEnd,
     getUnclosedComment,
-    Token,
-    Descriptors,
-    TokenGroup,
+    groupTokens,
+    isComment,
+    isCommentEnd,
+    isStringDelimiter,
+    isWhitespace,
+    tokenize,
+    trimTokens,
+    type Descriptors,
+    type Token,
+    type TokenGroup,
 } from '@tokey/core';
 
 const shouldAddToken = () => true;

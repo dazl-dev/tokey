@@ -1,5 +1,5 @@
 import { createParseTester } from '@tokey/test-kit';
-import { parseImports, ImportValue } from '@tokey/imports-parser';
+import { parseImports, type ImportValue } from '@tokey/imports-parser';
 
 const test = createParseTester({
     parse: (source: string) => parseImports(source, '{', '}'),

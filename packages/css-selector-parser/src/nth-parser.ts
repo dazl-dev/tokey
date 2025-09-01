@@ -1,6 +1,6 @@
-import type { CSSSelectorToken } from './tokenizer';
-import type { Nth, NthOf, NthOffset, NthStep } from './ast-types';
-import { createCommentAst } from './helpers';
+import type { CSSSelectorToken } from './tokenizer.ts';
+import type { Nth, NthOf, NthOffset, NthStep } from './ast-types.ts';
+import { createCommentAst } from './helpers.ts';
 import { isComment, Seeker, last } from '@tokey/core';
 
 export class NthParser {
@@ -45,10 +45,12 @@ export class NthParser {
     public state: 'step' | `dash` | `offset` | `of` | `selector` = `step`;
     private standaloneDash = false;
     private ast: Nth['nodes'];
-    constructor(
-        private selectorNode: Nth,
-        private s: Seeker<CSSSelectorToken>,
-    ) {
+    private selectorNode: Nth;
+    private s: Seeker<CSSSelectorToken>;
+
+    constructor(selectorNode: Nth, s: Seeker<CSSSelectorToken>) {
+        this.selectorNode = selectorNode;
+        this.s = s;
         this.ast = selectorNode.nodes;
     }
     public handleToken(token: CSSSelectorToken): boolean {

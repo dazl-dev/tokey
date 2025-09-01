@@ -1,4 +1,4 @@
-import { initPreview } from './view';
+import { initPreview } from './view.ts';
 import { parseValueSyntax } from '@tokey/css-value-parser';
 // import { valueDefinitions } from '../../packages/css-value-parser/src/value-definitions';
 

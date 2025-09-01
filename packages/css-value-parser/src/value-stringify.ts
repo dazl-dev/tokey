@@ -20,7 +20,7 @@ import type {
     Resolution,
     Time,
     UnknownUnit,
-} from './ast-types';
+} from './ast-types.ts';
 
 export function stringifyCSSValue(ast: BaseAstNode | BaseAstNode[]) {
     if (!Array.isArray(ast)) {

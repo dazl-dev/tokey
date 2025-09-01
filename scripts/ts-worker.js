@@ -1,5 +1,5 @@
-const { parentPort } = require('worker_threads');
-const { transpileModule, ModuleKind } = require('typescript');
+import { parentPort } from 'node:worker_threads';
+import { ModuleKind, transpileModule } from 'typescript';
 
 parentPort.on('message', ({ args: [content, fileName], id }) => {
     const target = transpileModule(content, {

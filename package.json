@@ -1,6 +1,7 @@
 {
   "name": "tokey-root",
   "private": true,
+  "type": "module",
   "workspaces": [
     "packages/*"
   ],

@@ -1,4 +1,4 @@
-import type { Token } from './types';
+import type { Token } from './types.ts';
 
 export interface TokyOptions<T extends Token<unknown>> {
     shouldAddToken(type: T['type'], value: string): boolean;

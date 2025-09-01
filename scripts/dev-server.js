@@ -1,11 +1,11 @@
-const http = require('http');
-const fs = require('fs/promises');
-const path = require('path');
-const { Worker } = require('worker_threads');
+import fs from 'node:fs/promises';
+import http from 'node:http';
+import path from 'node:path';
+import { Worker } from 'node:worker_threads';
 
-const indexRoot = path.join(__dirname, '../demos');
+const indexRoot = path.join(import.meta.dirname, '../demos');
 
-const compileModule = createWorker(path.join(__dirname, 'ts-worker.js'));
+const compileModule = createWorker(path.join(import.meta.dirname, 'ts-worker.js'));
 
 const port = 8080;
 http.createServer((req, res) => {

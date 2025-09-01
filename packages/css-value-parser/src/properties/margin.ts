@@ -1,4 +1,4 @@
-import { defineProperty } from '../define-property';
+import { defineProperty } from '../define-property.ts';
 
 const subMarginPlacements: Record<
     'top' | 'right' | 'bottom' | 'left',
