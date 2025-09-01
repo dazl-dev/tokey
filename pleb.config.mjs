@@ -1,6 +1,3 @@
 export default {
-  pinnedPackages: [
-    { name: 'chai', reason: 'esm only from v5' },
-    { name: '@types/chai', reason: 'esm only from v5' },
-  ],
+  pinnedPackages: [{ name: '@webref/css', reason: 'newer versions require code changes' }],
 };
