@@ -11,7 +11,7 @@
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "preLaunchTask": "npm: build",
       "skipFiles": ["<node_internals>/**"],
-      "args": ["-r", "@ts-tools/node/r", "${file}"],
+      "args": ["${file}"],
       "internalConsoleOptions": "openOnSessionStart"
     },
     {
@@ -19,7 +19,7 @@
       "request": "launch",
       "name": "Dev Server",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}//scripts//dev-server.js"
+      "program": "${workspaceFolder}/scripts/dev-server.js"
     },
     {
       "type": "node",
@@ -28,7 +28,7 @@
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "preLaunchTask": "npm: build",
       "skipFiles": ["<node_internals>/**"],
-      "args": ["-r", "@ts-tools/node/r", "${workspaceFolder}/packages/**/**.spec.ts"],
+      "args": ["${workspaceFolder}/packages/**/**.spec.ts"],
       "internalConsoleOptions": "openOnSessionStart"
     }
   ]
