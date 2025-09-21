@@ -1,0 +1,37 @@
+{
+  "name": "@tokey/env-file-parser",
+  "description": "A self-contained parser for .env files",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "test": "mocha \"./dist/test/**/*.spec.js\""
+  },
+  "dependencies": {},
+  "keywords": [
+    "parser",
+    "env",
+    "dotenv",
+    "environment"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "!*/test",
+    "!*/tsconfig.{json,tsbuildinfo}"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Dazl",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dazl-dev/tokey.git",
+    "directory": "packages/env-file-parser"
+  },
+  "sideEffects": false
+}
