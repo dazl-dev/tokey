@@ -335,9 +335,7 @@ describe('env AST parser', () => {
             const ast = parseEnvAST(content);
             const serialized = serializeEnvAST(ast);
 
-            expect(serialized).to.include('# Comment');
-            expect(serialized).to.include('KEY1=value1');
-            expect(serialized).to.include('KEY2="quoted value"');
+            expect(serialized).to.eql(content);
         });
 
         it('should preserve quote types when serializing', () => {
@@ -345,8 +343,7 @@ describe('env AST parser', () => {
             const ast = parseEnvAST(content);
             const serialized = serializeEnvAST(ast);
 
-            expect(serialized).to.include('KEY1="double"');
-            expect(serialized).to.include("KEY2='single'");
+            expect(serialized).to.eql(content);
         });
 
         it('should serialize before comments correctly', () => {
@@ -354,8 +351,18 @@ describe('env AST parser', () => {
             const ast = parseEnvAST(content);
             const serialized = serializeEnvAST(ast);
 
-            expect(serialized).to.include('# Before comment');
-            expect(serialized).to.include('KEY1=value1 # Inline comment');
+            expect(serialized).to.eql(content);
+        });
+
+        it('should serialize minimal content (vars and before comments)', () => {
+            const content =
+                '# Before 1\nKEY1=value1 # Inline comment \n# unrelated comment\n# Before 2\nKEY2=value2';
+            const ast = parseEnvAST(content);
+            const serialized = serializeEnvAST(ast, 'minimal');
+
+            expect(serialized).to.eql(
+                '# Before 1\nKEY1=value1 # Inline comment \n\n# Before 2\nKEY2=value2',
+            );
         });
     });
 

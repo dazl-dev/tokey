@@ -242,8 +242,8 @@ export function parseEnvAST(content: string): EnvAST {
     return { nodes, errors, variables };
 }
 
-export function serializeEnvAST(ast: EnvAST, mode: 'default' | 'full' = 'default'): string {
-    if (mode === 'default') {
+export function serializeEnvAST(ast: EnvAST, mode: 'all' | 'minimal' = 'all'): string {
+    if (mode === 'minimal') {
         return ast.nodes
             .map((node) => {
                 if (node.type === 'VariableAssignment') {
