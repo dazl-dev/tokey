@@ -49,8 +49,10 @@ export interface EnvAST {
 export function createEmptyAST(nodes: ASTNode[] = []): EnvAST {
     return {
         nodes,
-        errors: [], //maybe validate the nodes
-        variables: Object.fromEntries(nodes.filter(isVariableAssignmentNode).map((n) => [n.key, n.value])),
+        errors: [],
+        variables: Object.fromEntries(
+            nodes.filter(isVariableAssignmentNode).map((n) => [n.key, n.value]),
+        ),
     };
 }
 
@@ -60,11 +62,11 @@ export function createVariableAssignment(
     quotedWith: '"' | "'" | '`' | null = null,
     comment?: CommentNode,
     beforeComment?: CommentNode,
-    id?: string,
+    id: string = generateId(),
 ): VariableAssignmentNode {
     return {
         type: 'VariableAssignment',
-        id: id || generateId(),
+        id,
         key,
         value,
         quotedWith,
@@ -94,18 +96,18 @@ export function parseEnvAST(content: string): EnvAST {
         }
         // Check for comment line
         if (i < len && content[i] === '#') {
-            let commentStart = i + 1;
+            const commentStart = i + 1;
             let commentEnd = commentStart;
             // Find end of line
-            while (commentEnd < len && content[commentEnd] !== '\n' && content[commentEnd] !== '\r') commentEnd++;
+            while (commentEnd < len && content[commentEnd] !== '\n' && content[commentEnd] !== '\r')
+                commentEnd++;
             // Trim leading spaces in comment
-            while (commentStart < commentEnd && (content[commentStart] === ' ' || content[commentStart] === '\t'))
-                commentStart++;
-            const commentText = content.slice(commentStart, commentEnd);
+            const commentText = content.slice(commentStart, commentEnd).trimStart();
             beforeCommentNode = { type: 'Comment', id: generateId(), text: commentText };
             nodes.push(beforeCommentNode);
             // Move to next line
-            if (content[commentEnd] === '\r' && content[commentEnd + 1] === '\n') i = commentEnd + 2;
+            if (content[commentEnd] === '\r' && content[commentEnd + 1] === '\n')
+                i = commentEnd + 2;
             else i = commentEnd + 1;
             continue;
         }
@@ -137,7 +139,8 @@ export function parseEnvAST(content: string): EnvAST {
         if (equalIndex === -1) {
             // No = found, treat as error or skip
             let lineEnd = keyEnd;
-            while (lineEnd < len && content[lineEnd] !== '\n' && content[lineEnd] !== '\r') lineEnd++;
+            while (lineEnd < len && content[lineEnd] !== '\n' && content[lineEnd] !== '\r')
+                lineEnd++;
             errors.push({
                 message: 'Invalid syntax: missing = assignment operator',
                 severity: 'error',
@@ -189,20 +192,25 @@ export function parseEnvAST(content: string): EnvAST {
             quotedWith = value[0];
             value = value.slice(1, -1);
             if (quotedWith === '"') {
-                value = value.replace(/\\"/g, '"').replace(/\\n/g, '\n').replace(/\\t/g, '\t').replace(/\\\\/g, '\\');
+                value = value
+                    .replace(/\\"/g, '"')
+                    .replace(/\\n/g, '\n')
+                    .replace(/\\t/g, '\t')
+                    .replace(/\\\\/g, '\\');
             }
         }
         // Inline comment
         let inlineComment: CommentNode | undefined = undefined;
         if (commentIndex !== -1) {
-            let commentTextStart = commentIndex + 1;
-            // Skip leading whitespace in comment
-            while (commentTextStart < len && (content[commentTextStart] === ' ' || content[commentTextStart] === '\t'))
-                commentTextStart++;
+            const commentTextStart = commentIndex + 1;
             let commentTextEnd = commentTextStart;
-            while (commentTextEnd < len && content[commentTextEnd] !== '\n' && content[commentTextEnd] !== '\r')
+            while (
+                commentTextEnd < len &&
+                content[commentTextEnd] !== '\n' &&
+                content[commentTextEnd] !== '\r'
+            )
                 commentTextEnd++;
-            const commentText = content.slice(commentTextStart, commentTextEnd);
+            const commentText = content.slice(commentTextStart, commentTextEnd).trimStart();
             inlineComment = { type: 'Comment', id: generateId(), text: commentText };
         }
         // Create node
@@ -225,7 +233,8 @@ export function parseEnvAST(content: string): EnvAST {
         if (commentIndex !== -1) {
             // Move to end of comment
             lineEnd = commentIndex;
-            while (lineEnd < len && content[lineEnd] !== '\n' && content[lineEnd] !== '\r') lineEnd++;
+            while (lineEnd < len && content[lineEnd] !== '\n' && content[lineEnd] !== '\r')
+                lineEnd++;
         }
         if (content[lineEnd] === '\r' && content[lineEnd + 1] === '\n') i = lineEnd + 2;
         else i = lineEnd + 1;
@@ -238,7 +247,9 @@ export function serializeEnvAST(ast: EnvAST, mode: 'default' | 'full' = 'default
         return ast.nodes
             .map((node) => {
                 if (node.type === 'VariableAssignment') {
-                    const beforeComment = node.beforeComment ? `# ${node.beforeComment.text}\n` : '';
+                    const beforeComment = node.beforeComment
+                        ? `# ${node.beforeComment.text}\n`
+                        : '';
                     const quotedValue = formatVariableValue(node.value, node.quotedWith);
                     const inlineComment = node.comment ? ` # ${node.comment.text}` : '';
                     return `${beforeComment}${node.key}=${quotedValue}${inlineComment}`;
@@ -276,7 +287,8 @@ function formatVariableValue(value: string, originalQuoteType: '"' | "'" | '`' |
         return `\`${value}\``;
     }
 
-    const needsQuotes = value.includes(' ') || value.includes('\n') || value.includes('\t') || value.includes('#');
+    const needsQuotes =
+        value.includes(' ') || value.includes('\n') || value.includes('\t') || value.includes('#');
     if (needsQuotes) {
         return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\t/g, '\\t')}"`;
     }
@@ -297,26 +309,24 @@ export function getVariableNodes(ast: EnvAST): VariableAssignmentNode[] {
 }
 
 export function updateVariableByIdInAST(ast: EnvAST, id: string, newValue: string): EnvAST {
-    const newNodes = ast.nodes.map((node) => {
-        if (isVariableAssignmentNode(node) && node.id === id) {
-            return {
-                ...node,
-                value: newValue,
-            };
-        }
-        return node;
-    });
-
-    const variableNode = ast.nodes.find(
+    const targetNodeIndex = ast.nodes.findIndex(
         (node) => isVariableAssignmentNode(node) && node.id === id,
-    ) as VariableAssignmentNode;
-    const key = variableNode?.key;
-    const newVariables = key ? { ...ast.variables, [key]: newValue } : ast.variables;
+    );
+    if (targetNodeIndex === -1) return ast;
+
+    const variableNode = ast.nodes[targetNodeIndex] as VariableAssignmentNode;
+    const key = variableNode.key;
 
     return {
         ...ast,
-        nodes: newNodes,
-        variables: newVariables,
+        nodes: ast.nodes.splice(targetNodeIndex, 1, {
+            ...variableNode,
+            value: newValue,
+        }),
+        variables: {
+            ...ast.variables,
+            [key]: newValue,
+        },
     };
 }
 
@@ -342,7 +352,9 @@ export function addVariableToAST(
         key,
         value,
         quotedWith: null,
-        comment: description ? ({ type: 'Comment', id: generateId(), text: description } as CommentNode) : undefined,
+        comment: description
+            ? ({ type: 'Comment', id: generateId(), text: description } as CommentNode)
+            : undefined,
         beforeComment: beforeCommentNode,
     };
 
@@ -355,7 +367,11 @@ export function addVariableToAST(
     };
 }
 
-export function updateVariableBeforeCommentByIdInAST(ast: EnvAST, id: string, beforeComment?: string): EnvAST {
+export function updateVariableBeforeCommentByIdInAST(
+    ast: EnvAST,
+    id: string,
+    beforeComment?: string,
+): EnvAST {
     let targetVariableIndex = -1;
     let oldBeforeCommentNode: CommentNode | undefined;
 
@@ -473,5 +489,5 @@ export function normalizeVariableKey(key: string): string {
 }
 
 export function generateId(): string {
-    return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `${Date.now()}_${Math.random().toString(36).slice(2)}`;
 }
