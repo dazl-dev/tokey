@@ -9,7 +9,7 @@ import {
     type CommentNode,
     type VariableAssignmentNode,
     type EmptyLineNode,
-} from '../env-parser';
+} from '../env-parser.ts';
 
 describe('Helper Functions', () => {
     describe('createVariableAssignment', () => {
