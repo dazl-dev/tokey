@@ -1,4 +1,4 @@
-import { type ValidationError, type EnvAST, getVariableNodes } from './env-parser';
+import { type ValidationError, type EnvAST, getVariableNodes } from './env-parser.ts';
 
 export const VALIDATION_MESSAGES = {
     SECRET_NAME_EMPTY: 'Secret name cannot be empty',

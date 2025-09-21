@@ -2,6 +2,7 @@
   "name": "@tokey/css-value-parser",
   "description": "value parser for css",
   "version": "0.1.4",
+  "type": "module",
   "exports": {
     ".": "./dist/index.js",
     "./package.json": "./package.json"
@@ -26,11 +27,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "Wix.com",
+  "author": "Dazl",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wixplosives/tokey.git",
+    "url": "git+https://github.com/dazl-dev/tokey.git",
     "directory": "packages/css-value-parser"
   },
   "sideEffects": false

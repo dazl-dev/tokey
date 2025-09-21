@@ -1,4 +1,4 @@
-import type { Token } from './types';
+import type { Token } from './types.ts';
 
 /**
  * Checks if a token type is comment

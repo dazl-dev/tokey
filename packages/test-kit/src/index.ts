@@ -1,3 +1,3 @@
-export { createParseTester, type TestOptions, type TesterConfig } from './parse-tester';
-export { testTokenizer } from './test-tokenizer';
-export { isMatch } from './is-match';
+export { createParseTester, type TestOptions, type TesterConfig } from './parse-tester.ts';
+export { testTokenizer } from './test-tokenizer.ts';
+export { isMatch } from './is-match.ts';

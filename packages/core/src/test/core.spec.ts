@@ -1,14 +1,14 @@
+import type { Token } from '@tokey/core';
+import { tokenize, type TokyOptions } from '@tokey/core';
 import { testTokenizer as test } from '@tokey/test-kit';
-import { tokenize, TokyOptions } from '@tokey/core';
 import {
     createToken,
-    isWhitespace,
-    isStringDelimiter,
     getJSCommentStartType,
-    isCommentEnd,
     getUnclosedComment,
-} from '../helpers';
-import type { Token } from '@tokey/core';
+    isCommentEnd,
+    isStringDelimiter,
+    isWhitespace,
+} from '../helpers.ts';
 
 const options: TokyOptions<Token> = {
     isDelimiter(char: string) {

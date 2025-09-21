@@ -1,11 +1,15 @@
-import type { Token } from './types';
+import type { Token } from './types.ts';
 
 /**
  * Minimal token traverse helper used to create structure from tokens
  */
 export class Seeker<T extends Token<unknown>> {
     index = -1;
-    constructor(public tokens: T[]) {}
+    public tokens: T[];
+
+    constructor(tokens: T[]) {
+        this.tokens = tokens;
+    }
     next() {
         this.index++;
         return this.tokens[this.index] || { type: '' };

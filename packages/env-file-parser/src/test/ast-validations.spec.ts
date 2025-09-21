@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import { parseEnvAST } from '../env-parser';
+import { parseEnvAST } from '../env-parser.ts';
 import {
     maxSecretValueLengthSuggestion,
     validateEnvAST,
     VALIDATION_MESSAGES,
-} from '../ast-validations';
+} from '../ast-validations.ts';
 
 describe('Secret validations', () => {
     it('should detect duplicate secret names', () => {

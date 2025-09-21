@@ -1,4 +1,4 @@
-import { defineProperty } from '../define-property';
+import { defineProperty } from '../define-property.ts';
 
 export const background = defineProperty({
     name: `background`,

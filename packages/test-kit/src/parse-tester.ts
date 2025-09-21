@@ -1,4 +1,4 @@
-import { isMatch } from './is-match';
+import { isMatch } from './is-match.ts';
 
 export interface TesterConfig<AST, INPUT extends string, CONFIG> {
     parse: (input: INPUT, options?: CONFIG) => AST;

@@ -7,7 +7,7 @@ import {
     getVariableNodes,
     type EnvAST,
     type VariableAssignmentNode,
-} from '../env-parser';
+} from '../env-parser.ts';
 
 export function findVariableNode(ast: EnvAST, key: string): VariableAssignmentNode | undefined {
     return getVariableNodes(ast).find((node) => node.key === key);

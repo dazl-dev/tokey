@@ -1,12 +1,12 @@
 import {
+    groupCompoundSelectors,
     parseCssSelector,
     walk,
-    WalkOptions,
-    groupCompoundSelectors,
-    SelectorNode,
-    SelectorList,
-    ImmutableSelectorList,
-    ImmutableSelectorNode,
+    type ImmutableSelectorList,
+    type ImmutableSelectorNode,
+    type SelectorList,
+    type SelectorNode,
+    type WalkOptions,
 } from '@tokey/css-selector-parser';
 import { isMatch } from '@tokey/test-kit';
 

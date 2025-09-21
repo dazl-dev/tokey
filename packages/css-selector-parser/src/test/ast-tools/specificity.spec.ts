@@ -3,7 +3,7 @@ import {
     compareSpecificity,
     groupCompoundSelectors,
     parseCssSelector,
-    ImmutableSelectorNode,
+    type ImmutableSelectorNode,
 } from '@tokey/css-selector-parser';
 import { expect } from 'chai';
 

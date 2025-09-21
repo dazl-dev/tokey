@@ -1,26 +1,26 @@
-import { tokenizeSelector, CSSSelectorToken } from './tokenizer';
-import { NthParser } from './nth-parser';
+import { getText, isComment, last, Seeker } from '@tokey/core';
 import type {
-    Namespace,
     Combinator,
     Comment,
+    Namespace,
     NamespacedNode,
     Selector,
     SelectorList,
     SelectorNode,
-} from './ast-types';
+} from './ast-types.ts';
 import {
     createCombinatorAst,
     createCommentAst,
-    createEmptySelector,
     createEmptyNth,
+    createEmptySelector,
+    ensureSelector,
     isCombinatorToken,
     isNamespacedAst,
     isNamespacedToken,
-    ensureSelector,
     trimCombinators,
-} from './helpers';
-import { isComment, getText, Seeker, last } from '@tokey/core';
+} from './helpers.ts';
+import { NthParser } from './nth-parser.ts';
+import { tokenizeSelector, type CSSSelectorToken } from './tokenizer.ts';
 
 export interface ParseConfig {
     offset: number;

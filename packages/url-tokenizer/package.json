@@ -2,6 +2,7 @@
   "name": "@tokey/url-tokenizer",
   "description": "tokenize css url() syntax",
   "version": "0.1.0",
+  "type": "module",
   "exports": {
     ".": "./dist/url-tokenizer.js",
     "./package.json": "./package.json"
@@ -26,11 +27,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "author": "Wix.com",
+  "author": "Dazl",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wixplosives/tokey.git",
+    "url": "git+https://github.com/dazl-dev/tokey.git",
     "directory": "packages/url-tokenizer"
   }
 }

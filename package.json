@@ -1,6 +1,7 @@
 {
   "name": "tokey-root",
   "private": true,
+  "type": "module",
   "workspaces": [
     "packages/*"
   ],
@@ -15,26 +16,25 @@
     "start": "node scripts/dev-server.js"
   },
   "devDependencies": {
-    "@ts-tools/node": "^6.1.0",
-    "@types/chai": "^4.3.20",
+    "@types/chai": "^5.2.2",
     "@types/mocha": "^10.0.10",
     "@types/node": "22",
     "@webref/css": "~6.16.1",
-    "chai": "^4.3.10",
+    "chai": "^6.0.1",
     "dedent-js": "^1.0.1",
-    "eslint": "^9.24.0",
-    "eslint-config-prettier": "^10.1.2",
+    "eslint": "^9.36.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-no-only-tests": "^3.3.0",
-    "mocha": "^11.1.0",
-    "prettier": "^3.5.3",
+    "mocha": "^11.7.2",
+    "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.29.1"
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.44.0"
   },
   "engines": {
     "node": ">=22"
   },
-  "repository": "git@github.com:wixplosives/tokey.git",
-  "author": "Wix.com",
+  "repository": "git@github.com:dazl-dev/tokey.git",
+  "author": "Dazl",
   "license": "MIT"
 }
