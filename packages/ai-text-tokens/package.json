@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    ".": "./dist/url-tokenizer.js",
+    ".": "./dist/text-tokenizer.js",
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -14,9 +14,13 @@
     "@tokey/core": "^1.4.0"
   },
   "keywords": [
-    "parser",
-    "css",
-    "url"
+    "tokenizer",
+    "text-processing",
+    "url-detection",
+    "ai-tokens",
+    "markdown-links",
+    "secret-parsing",
+    "text-analysis"
   ],
   "files": [
     "src",
@@ -32,6 +36,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dazl-dev/tokey.git",
-    "directory": "packages/url-tokenizer"
+    "directory": "packages/ai-text-tokens"
   }
 }
