@@ -625,4 +625,104 @@ describe('Text Tokenizer', () => {
             });
         });
     });
+
+    describe('case sensitivity', () => {
+        it('should detect URLs with mixed case protocols', () => {
+            testUrlMatch('HTTPS://example.com', ['HTTPS://example.com']);
+            testUrlMatch('Http://example.com', ['Http://example.com']);
+            testUrlMatch('FTP://example.com', ['FTP://example.com']);
+            testUrlMatch('FILE://example.com', ['FILE://example.com']);
+        });
+
+        it('should detect URLs with mixed case domains', () => {
+            testUrlMatch('https://EXAMPLE.COM', ['https://EXAMPLE.COM']);
+            testUrlMatch('https://Example.Com', ['https://Example.Com']);
+            testUrlMatch('https://API.GITHUB.COM', ['https://API.GITHUB.COM']);
+            testUrlMatch('EXAMPLE.COM', ['EXAMPLE.COM']);
+        });
+
+        it('should detect URLs with mixed case TLDs', () => {
+            testUrlMatch('example.COM', ['example.COM']);
+            testUrlMatch('example.Co.UK', ['example.Co.UK']);
+            testUrlMatch('example.ORG', ['example.ORG']);
+            testUrlMatch('example.Net', ['example.Net']);
+            testUrlMatch('example.EDU', ['example.EDU']);
+        });
+
+        it('should detect URLs with mixed case subdomains', () => {
+            testUrlMatch('WWW.example.com', ['WWW.example.com']);
+            testUrlMatch('www.EXAMPLE.com', ['www.EXAMPLE.com']);
+            testUrlMatch('API.GITHUB.com', ['API.GITHUB.com']);
+            testUrlMatch('SUBDOMAIN.api.EXAMPLE.com', ['SUBDOMAIN.api.EXAMPLE.com']);
+        });
+
+        it('should detect URLs with mixed case paths and parameters', () => {
+            testUrlMatch('https://example.com/PATH/TO/PAGE', ['https://example.com/PATH/TO/PAGE']);
+            testUrlMatch('https://example.com/Api/V1/Users', ['https://example.com/Api/V1/Users']);
+            testUrlMatch('https://example.com?Param=VALUE', ['https://example.com?Param=VALUE']);
+            testUrlMatch('https://example.com#ANCHOR', ['https://example.com#ANCHOR']);
+        });
+
+        it('should preserve original case in extracted URLs', () => {
+            testUrlMatchWithLocations('Visit HTTPS://API.GITHUB.COM/users/test', [
+                { url: 'HTTPS://API.GITHUB.COM/users/test', start: 6, end: 39 },
+            ]);
+
+            testUrlMatchWithLocations('Check WWW.EXAMPLE.ORG for more info', [
+                { url: 'WWW.EXAMPLE.ORG', start: 6, end: 21 },
+            ]);
+
+            testUrlMatchWithLocations('Go to Example.Com/About-Us', [
+                { url: 'Example.Com/About-Us', start: 6, end: 26 },
+            ]);
+        });
+
+        it('should handle mixed case in multiple URLs', () => {
+            testUrlMatchWithLocations('See HTTPS://EXAMPLE.COM and http://test.ORG', [
+                { url: 'HTTPS://EXAMPLE.COM', start: 4, end: 23 },
+                { url: 'http://test.ORG', start: 28, end: 43 },
+            ]);
+        });
+
+        it('should handle case sensitivity with special characters and boundaries', () => {
+            testUrlMatch('Visit (HTTPS://EXAMPLE.COM)!', ['HTTPS://EXAMPLE.COM']);
+            testUrlMatch('"WWW.TEST.ORG"', ['WWW.TEST.ORG']);
+            testUrlMatch('URL: API.GITHUB.COM;', ['API.GITHUB.COM']);
+            testUrlMatch('<HTTP://LOCALHOST:8080>', ['HTTP://LOCALHOST:8080']);
+        });
+
+        it('should validate case insensitive TLD matching', () => {
+            // These should all be detected as valid URLs since TLD validation is case insensitive
+            testUrlMatch('example.com', ['example.com']);
+            testUrlMatch('example.COM', ['example.COM']);
+            testUrlMatch('example.Com', ['example.Com']);
+            testUrlMatch('example.co.uk', ['example.co.uk']);
+            testUrlMatch('example.CO.UK', ['example.CO.UK']);
+            testUrlMatch('example.Co.Uk', ['example.Co.Uk']);
+        });
+
+        it('should handle case sensitivity in complex scenarios', () => {
+            const input =
+                'Please visit HTTPS://API.GITHUB.COM/repos or check WWW.EXAMPLE.ORG/docs for more information.';
+            testUrlMatchWithLocations(input, [
+                { url: 'HTTPS://API.GITHUB.COM/repos', start: 13, end: 41 },
+                { url: 'WWW.EXAMPLE.ORG/docs', start: 51, end: 71 },
+            ]);
+        });
+
+        it('should preserve case in reconstruction validation', () => {
+            const inputs = [
+                'HTTPS://EXAMPLE.COM',
+                'Http://Test.Org',
+                'WWW.GITHUB.COM',
+                'api.EXAMPLE.org/V1',
+                'Visit HTTPS://API.Test.COM and WWW.example.ORG',
+                'Check (HTTP://LOCALHOST:8080) for details',
+            ];
+
+            inputs.forEach((input) => {
+                validateTokenReconstruction(input);
+            });
+        });
+    });
 });

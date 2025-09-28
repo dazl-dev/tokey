@@ -1,7 +1,5 @@
 import { tlds } from './tlds.ts';
 
-const SUPPORTED_PROTOCOLS = new Set(['http', 'https', 'ftp', 'file']);
-
 export interface UrlLocation {
     kind: 'url';
     start: number;
@@ -37,7 +35,8 @@ export function textTokenizer(text: string): (UrlLocation | SecretLocation | Tex
     let hasUnsupportedProtocol = false;
 
     for (let i = 0; i < length; i++) {
-        const char = text[i];
+        const charRaw = text[i];
+        const char = charRaw.toLowerCase();
 
         // Check for markdown link pattern [](URL)
         if (char === ']' && i + 1 < length && text[i + 1] === '(') {
@@ -96,24 +95,38 @@ export function textTokenizer(text: string): (UrlLocation | SecretLocation | Tex
             resetState();
             continue;
         }
-
         if (tokenStart === -1) {
             tokenStart = i;
         }
-
-        currentToken += char;
+        currentToken += charRaw;
 
         if (!hasProtocol) {
+            let protocol = '';
             if (currentToken.endsWith('://')) {
-                // Remove any non-protocol characters from the start, then extract the protocol part before '://'
-                const cleanProtocol = currentToken.replace(/^[^a-zA-Z0-9+.-]+/, '').toLowerCase();
-                tokenStart += currentToken.length - cleanProtocol.length;
-                const protocol = cleanProtocol.slice(0, -3); // Remove '://'
-                if (SUPPORTED_PROTOCOLS.has(protocol)) {
-                    hasProtocol = true;
+                const tokenLower = currentToken.toLowerCase();
+                if (tokenLower.endsWith('https://')) {
+                    protocol = currentToken.slice(-8);
+                } else if (tokenLower.endsWith('http://')) {
+                    protocol = currentToken.slice(-7);
+                } else if (tokenLower.endsWith('ftp://')) {
+                    protocol = currentToken.slice(-6);
+                } else if (tokenLower.endsWith('file://')) {
+                    protocol = currentToken.slice(-7);
                 } else {
-                    hasUnsupportedProtocol = true;
+                    protocol = '://';
                 }
+            }
+
+            if (protocol === '://') {
+                hasUnsupportedProtocol = true;
+            } else if (protocol) {
+                const nextTokenStart = tokenStart + currentToken.length - protocol.length;
+                if (addTextNodeIfNeeded(nextTokenStart)) {
+                    resetState();
+                    currentToken = protocol;
+                    tokenStart = nextTokenStart;
+                }
+                hasProtocol = true;
             }
         }
 
@@ -146,12 +159,15 @@ export function textTokenizer(text: string): (UrlLocation | SecretLocation | Tex
                 end: currentIndex,
                 text: text.slice(lastProcessedIndex, currentIndex),
             });
+            lastProcessedIndex = currentIndex;
+            return true;
         }
+        return false;
     }
 
     function processToken(i: number) {
         if (tokenStart !== -1 && (hasProtocol || hasDot)) {
-            const cleanToken = currentToken.replace(/[,.;:]+$/, '');
+            const cleanToken = currentToken.replace(/[,.;:!)]+$/, '');
             const actualEnd = i - (currentToken.length - cleanToken.length);
 
             if (isValidUrlOrDomain(cleanToken) && !hasUnsupportedProtocol) {
