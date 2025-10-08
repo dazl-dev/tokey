@@ -19,7 +19,7 @@
     "@types/chai": "^5.2.2",
     "@types/mocha": "^10.0.10",
     "@types/node": "22",
-    "@webref/css": "~6.16.1",
+    "@webref/css": "~7.1.2",
     "chai": "^6.2.0",
     "dedent-js": "^1.0.1",
     "eslint": "^9.37.0",
