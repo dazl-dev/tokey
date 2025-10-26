@@ -309,23 +309,25 @@ export function getVariableNodes(ast: EnvAST): VariableAssignmentNode[] {
 }
 
 export function updateVariableByIdInAST(ast: EnvAST, id: string, newValue: string): EnvAST {
-    const targetNodeIndex = ast.nodes.findIndex(
-        (node) => isVariableAssignmentNode(node) && node.id === id,
-    );
-    if (targetNodeIndex === -1) return ast;
+    let updatedKey: string | null = null;
 
-    const variableNode = ast.nodes[targetNodeIndex] as VariableAssignmentNode;
-    const key = variableNode.key;
+    const nodes = ast.nodes.map((node) => {
+        if (isVariableAssignmentNode(node) && node.id === id) {
+            updatedKey = node.key;
+            return { ...node, value: newValue };
+        }
+        return node;
+    });
+
+    // If no node was found, return the original AST
+    if (updatedKey === null) return ast;
 
     return {
         ...ast,
-        nodes: ast.nodes.splice(targetNodeIndex, 1, {
-            ...variableNode,
-            value: newValue,
-        }),
+        nodes,
         variables: {
             ...ast.variables,
-            [key]: newValue,
+            [updatedKey]: newValue,
         },
     };
 }
