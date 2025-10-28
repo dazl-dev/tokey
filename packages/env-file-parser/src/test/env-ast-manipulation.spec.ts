@@ -26,6 +26,34 @@ describe('AST manipulation', () => {
         expect(updatedAST.variables.KEY2).to.equal('value2');
     });
 
+    it('should update variable in AST immutably (no side effects)', () => {
+        const content = 'KEY1=value1\nKEY2=value2';
+        const ast = parseEnvAST(content);
+        const key1Node = findVariableNodes(ast, 'KEY1')[0];
+
+        // Store original references
+        const originalNodes = ast.nodes;
+        const originalVariables = ast.variables;
+        const originalKey1Value = ast.variables.KEY1;
+
+        // Update the variable
+        const updatedAST = updateVariableByIdInAST(ast, key1Node.id, 'new_value');
+
+        // Verify the original AST is unchanged (immutability)
+        expect(ast.variables.KEY1).to.equal(originalKey1Value); // Original unchanged
+        expect(ast.nodes).to.equal(originalNodes); // Original nodes reference unchanged
+        expect(ast.variables).to.equal(originalVariables); // Original variables reference unchanged
+
+        // Verify the updated AST has the new value
+        expect(updatedAST.variables.KEY1).to.equal('new_value');
+        expect(updatedAST.variables.KEY2).to.equal('value2');
+
+        // Verify new AST has different references (new objects)
+        expect(updatedAST.nodes).not.to.equal(originalNodes);
+        expect(updatedAST.variables).not.to.equal(originalVariables);
+        expect(updatedAST).not.to.equal(ast);
+    });
+
     it('should add variable to AST', () => {
         const content = 'KEY1=value1';
         const ast = parseEnvAST(content);
