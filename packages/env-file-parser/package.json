@@ -1,7 +1,7 @@
 {
   "name": "@tokey/env-file-parser",
   "description": "A self-contained parser for .env files",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
@@ -10,7 +10,6 @@
   "scripts": {
     "test": "mocha \"./dist/test/**/*.spec.js\""
   },
-  "dependencies": {},
   "keywords": [
     "parser",
     "env",
