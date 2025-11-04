@@ -1,7 +1,7 @@
 {
   "name": "@tokey/css-selector-parser",
   "description": "selector parser for css",
-  "version": "0.6.3",
+  "version": "2.0.0",
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
@@ -11,7 +11,7 @@
     "test": "mocha \"./dist/test/**/*.spec.js\""
   },
   "dependencies": {
-    "@tokey/core": "^1.4.1"
+    "@tokey/core": "^2.0.0"
   },
   "keywords": [
     "parser",

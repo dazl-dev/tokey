@@ -1,7 +1,7 @@
 {
   "name": "@tokey/core",
   "description": "simple code like tokenizer",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "type": "module",
   "exports": {
     ".": "./dist/index.js",
