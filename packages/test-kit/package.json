@@ -2,7 +2,7 @@
   "name": "@tokey/test-kit",
   "private": true,
   "description": "test kit to test parsers and ast",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {},
