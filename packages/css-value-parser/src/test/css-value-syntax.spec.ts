@@ -12,45 +12,29 @@ import {
     literal,
     property,
 } from '../value-syntax-parser.ts';
-
-import * as webCssRef from '@webref/css';
+import specs from '@webref/css/css.json' with { type: 'json' };
 
 describe(`sanity`, () => {
     const knownProblemticValuespacesCases = [
-        `<custom-selector>: <custom-arg>? : <extension-name> [ ( <custom-arg>+#? ) ]? ;`,
+        `custom-selector: <custom-arg>? : <extension-name> [ ( <custom-arg>+#? ) ]?`,
+        `if-condition: <boolean-expr[ <if-test> ]> | else`,
     ];
-    before(async () => {
-        const specs = await webCssRef.listAll();
-        for (const [specName, data] of Object.entries(specs)) {
-            describe(specName, () => {
-                describe('properties', () => {
-                    for (const { name, value } of Object.values(data.properties)) {
-                        if (value) {
-                            it(`<'${name}'>: ${value}`, () => {
-                                parseValueSyntax(value);
-                            });
-                        }
-                    }
+    for (const [specName, data] of Object.entries(specs)) {
+        describe(specName, () => {
+            for (const { name, syntax } of data) {
+                if (!syntax) {
+                    continue;
+                }
+                const title = `${name}: ${syntax}`;
+                if (knownProblemticValuespacesCases.includes(title)) {
+                    continue;
+                }
+                it(title, () => {
+                    parseValueSyntax(syntax);
                 });
-                describe('valuespaces', () => {
-                    for (const { name, value } of data.values) {
-                        if (value) {
-                            const title = `${name}: ${value}`;
-                            if (knownProblemticValuespacesCases.includes(title)) {
-                                continue;
-                            }
-                            it(title, () => {
-                                parseValueSyntax(value);
-                            });
-                        }
-                    }
-                });
-            });
-        }
-    });
-    it(`just here to make the before dynamically load and create tests`, () => {
-        /**/
-    });
+            }
+        });
+    }
 });
 
 // add test for #
