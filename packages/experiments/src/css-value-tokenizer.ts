@@ -74,7 +74,6 @@ function parseDeclValueTokens(
             const lastAst = ast[ast.length - 1];
             if (lastAst && before.length) {
                 lastAst.after = before;
-                before = [];
             }
             return {
                 ast,

@@ -50,7 +50,7 @@ function testWalk(
             walkOptions,
         );
     } catch (e) {
-        throw new Error(`error in walk, ${e as string}`);
+        throw new Error('error in walk', { cause: e });
     }
     if (!isMatch(actual, expectedMap)) {
         const e = JSON.stringify(expectedMap, null, 2);
