@@ -13,6 +13,7 @@ describe('expression-evaluator', () => {
             expect(compileExpression('5')({}), 'number').to.eql(5);
             expect(compileExpression('true')({}), 'true').to.eql(true);
             expect(compileExpression('false')({}), 'false').to.eql(false);
+            expect(compileExpression('undefined')({}), 'undefined').to.eql(undefined);
             expect(compileExpression('null')({}), 'null').to.eql(null);
             expect(compileExpression("'single'")({}), 'single').to.eql('single');
             expect(compileExpression('"double"')({}), 'double').to.eql('double');

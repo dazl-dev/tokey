@@ -363,6 +363,7 @@ function evaluateNode<T extends Record<string, unknown>>(node: AstNode, context:
             return node.value;
 
         case 'identifier': {
+            if (node.name === 'undefined') return undefined;
             if (!Object.hasOwn(context, node.name)) {
                 throw new ExpressionSecurityError(`Access to '${node.name}' is not allowed`);
             }
