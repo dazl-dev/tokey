@@ -451,14 +451,14 @@ export class ExpressionSecurityError extends Error {
  */
 export function compileExpression<T extends Record<string, unknown>>(
     expression: string,
-): (context: T) => boolean {
+): (context: T) => unknown {
     const tokens = tokenize(expression);
     const parser = new Parser(tokens);
     const ast = parser.parse();
 
     return (context: T) => {
         const result = evaluateNode(ast, context);
-        return Boolean(result);
+        return result;
     };
 }
 
@@ -469,7 +469,7 @@ export function compileExpression<T extends Record<string, unknown>>(
 export function safeEvaluateExpression<T extends Record<string, unknown>>(
     expression: string,
     context: T,
-): boolean {
+): unknown {
     try {
         const evaluator = compileExpression<T>(expression);
         return evaluator(context);

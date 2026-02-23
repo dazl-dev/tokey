@@ -71,7 +71,7 @@ describe('expression-evaluator', () => {
 
         it('returns undefined for member access on null or non-object', () => {
             const evaluateNull = compileExpression('element.component.doesNotExist');
-            expect(evaluateNull({ element: { component: 'MyButton' } })).equal(false);
+            expect(evaluateNull({ element: { component: 'MyButton' } })).equal(undefined);
         });
 
         it('evaluates numeric equality', () => {
@@ -141,7 +141,7 @@ describe('expression-evaluator', () => {
 
         it('handles unterminated string ending with backslash', () => {
             const evaluate = compileExpression("'unterminated\\");
-            expect(evaluate({})).equal(true); // 'unterminated' is truthy
+            expect(evaluate({})).equal('unterminated');
         });
 
         it('throws ExpressionSyntaxError on unknown operators', () => {
