@@ -47,7 +47,7 @@ function tokenize(expression: string): Token[] {
         }
 
         // String literals
-        if (ch === "'" || ch === '"') {
+        if (ch === "'" || ch === '"' || ch === '`') {
             const quote = ch;
             let str = '';
             i++; // skip opening quote
