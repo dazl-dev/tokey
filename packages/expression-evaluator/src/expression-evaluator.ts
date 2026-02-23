@@ -1,5 +1,5 @@
 /**
- * Safe expression evaluator for `showWhen` expressions.
+ * Safe expression evaluator for simple expressions.
  *
  * Uses a restricted AST-based parser instead of `eval()` or `new Function()`.
  * Only allows property access on documented context parameters, comparisons,
@@ -213,7 +213,9 @@ class Parser {
     private consume(expectedType?: TokenType): Token {
         const token = this.tokens[this.pos];
         if (expectedType && token.type !== expectedType) {
-            throw new ExpressionSyntaxError(`Expected ${expectedType}, got ${token.type} ('${token.value}')`);
+            throw new ExpressionSyntaxError(
+                `Expected ${expectedType}, got ${token.type} ('${token.value}')`,
+            );
         }
         this.pos++;
         return token;
@@ -393,10 +395,8 @@ function evaluateNode<T extends Record<string, unknown>>(node: AstNode, context:
                 case '!==':
                     return left !== right;
                 case '==':
-                     
                     return left == right;
                 case '!=':
-                     
                     return left != right;
                 case '>':
                     return (left as number) > (right as number);
@@ -449,7 +449,9 @@ export class ExpressionSecurityError extends Error {
  * Throws ExpressionSyntaxError if the expression is invalid.
  * Returns a cached evaluator function for repeated evaluation.
  */
-export function compileExpression<T extends Record<string, unknown>>(expression: string): (context: T) => boolean {
+export function compileExpression<T extends Record<string, unknown>>(
+    expression: string,
+): (context: T) => boolean {
     const tokens = tokenize(expression);
     const parser = new Parser(tokens);
     const ast = parser.parse();
@@ -464,28 +466,16 @@ export function compileExpression<T extends Record<string, unknown>>(expression:
  * Evaluates a single expression in the given context.
  * Returns false if the expression fails to parse or evaluate.
  */
-export function safeEvaluateExpression<T extends Record<string, unknown>>(expression: string, context: T): boolean {
+export function safeEvaluateExpression<T extends Record<string, unknown>>(
+    expression: string,
+    context: T,
+): boolean {
     try {
         const evaluator = compileExpression<T>(expression);
         return evaluator(context);
     } catch {
         return false;
     }
-}
-
-/**
- * Evaluates a showWhen expression array.
- * Returns true if ANY expression evaluates to true,
- * or if the array is empty/undefined (always visible).
- */
-export function evaluateShowWhen<T extends Record<string, unknown>>(
-    showWhen: string[] | undefined,
-    context: T,
-): boolean {
-    if (!showWhen || showWhen.length === 0) {
-        return true; // empty = always visible
-    }
-    return showWhen.some((expr) => safeEvaluateExpression(expr, context));
 }
 
 /**

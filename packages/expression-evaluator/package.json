@@ -1,6 +1,6 @@
 {
   "name": "@tokey/expression-evaluator",
-  "description": "Safe expression evaluator for showWhen expressions",
+  "description": "Safe expression evaluator for simple expressions",
   "version": "0.1.1",
   "type": "module",
   "exports": {

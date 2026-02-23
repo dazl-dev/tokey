@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import {
     compileExpression,
     safeEvaluateExpression,
-    evaluateShowWhen,
     validateExpressionSyntax,
     ExpressionSyntaxError,
     ExpressionSecurityError,
@@ -269,31 +268,6 @@ describe('expression-evaluator', () => {
 
         it('returns true for valid expression', () => {
             expect(safeEvaluateExpression("element.tag === 'button'", baseContext)).equal(true);
-        });
-    });
-
-    describe('evaluateShowWhen', () => {
-        it('returns true when showWhen is empty', () => {
-            expect(evaluateShowWhen([], baseContext)).equal(true);
-        });
-
-        it('returns true when showWhen is undefined', () => {
-            expect(evaluateShowWhen(undefined, baseContext)).equal(true);
-        });
-
-        it('returns true when any expression matches', () => {
-            expect(
-                evaluateShowWhen(
-                    ["element.tag === 'div'", "element.tag === 'button'"],
-                    baseContext,
-                ),
-            ).equal(true);
-        });
-
-        it('returns false when no expression matches', () => {
-            expect(
-                evaluateShowWhen(["element.tag === 'div'", "element.tag === 'span'"], baseContext),
-            ).equal(false);
         });
     });
 
