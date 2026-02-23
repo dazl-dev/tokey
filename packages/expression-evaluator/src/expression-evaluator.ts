@@ -60,6 +60,9 @@ function tokenize(expression: string): Token[] {
                 }
                 i++;
             }
+            if (i >= len) {
+                throw new ExpressionSyntaxError(`Unterminated string literal`);
+            }
             i++; // skip closing quote
             tokens.push({ type: 'string', value: str });
             continue;

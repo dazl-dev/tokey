@@ -161,9 +161,10 @@ describe('expression-evaluator', () => {
             );
         });
 
-        it('handles unterminated string ending with backslash', () => {
-            const evaluate = compileExpression("'unterminated\\");
-            expect(evaluate({})).equal('unterminated');
+        it('should throw on unterminated string literal', () => {
+            expect(() => compileExpression("'single"), 'single').to.throw(ExpressionSyntaxError);
+            expect(() => compileExpression('"double'), 'double').to.throw(ExpressionSyntaxError);
+            expect(() => compileExpression('`tick'), 'backtick').to.throw(ExpressionSyntaxError);
         });
 
         it('throws ExpressionSyntaxError on unknown operators', () => {
