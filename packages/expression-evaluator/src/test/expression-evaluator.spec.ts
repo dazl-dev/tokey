@@ -172,6 +172,10 @@ describe('expression-evaluator', () => {
                 ExpressionSyntaxError,
             );
         });
+
+        it('should reject numbers with multiple dots', () => {
+            expect(() => compileExpression('1 > 1.2.3')).to.throw(ExpressionSyntaxError);
+        });
     });
 
     describe('security', () => {

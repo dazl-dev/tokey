@@ -71,7 +71,14 @@ function tokenize(expression: string): Token[] {
         // Numbers
         if (/\d/.test(ch)) {
             let num = '';
+            let hasDot = false;
             while (i < len && /[\d.]/.test(expression[i])) {
+                if (expression[i] === '.') {
+                    if (hasDot) {
+                        throw new ExpressionSyntaxError(`Invalid number: multiple decimal points`);
+                    }
+                    hasDot = true;
+                }
                 num += expression[i];
                 i++;
             }
