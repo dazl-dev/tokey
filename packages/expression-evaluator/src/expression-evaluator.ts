@@ -387,6 +387,15 @@ function evaluateNode<T extends Record<string, unknown>>(node: AstNode, context:
         }
 
         case 'binaryOp': {
+            // Short-circuit logical operators: evaluate right side lazily
+            if (node.operator === '&&') {
+                const left = evaluateNode(node.left, context);
+                return left ? evaluateNode(node.right, context) : left;
+            }
+            if (node.operator === '||') {
+                const left = evaluateNode(node.left, context);
+                return left ? left : evaluateNode(node.right, context);
+            }
             const left = evaluateNode(node.left, context);
             const right = evaluateNode(node.right, context);
             switch (node.operator) {
@@ -406,10 +415,6 @@ function evaluateNode<T extends Record<string, unknown>>(node: AstNode, context:
                     return (left as number) >= (right as number);
                 case '<=':
                     return (left as number) <= (right as number);
-                case '&&':
-                    return left && right;
-                case '||':
-                    return left || right;
                 default:
                     throw new ExpressionSyntaxError(`Unknown operator: '${node.operator}'`);
             }

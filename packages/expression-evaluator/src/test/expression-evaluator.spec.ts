@@ -121,6 +121,18 @@ describe('expression-evaluator', () => {
             const evaluate = compileExpression('element.component !== null');
             expect(evaluate({ element: { component: 'MyButton' } })).equal(true);
         });
+
+        it('&& should not evaluate right side when left is false', () => {
+            const evaluate = compileExpression("element.tag === 'div' && nonExistent.prop");
+            // should short-circuit: left is false, so right should never be evaluated
+            expect(evaluate({ element: { tag: 'button' } })).equal(false);
+        });
+
+        it('|| should not evaluate right side when left is true', () => {
+            const evaluate = compileExpression("element.tag === 'button' || nonExistent.prop");
+            // should short-circuit: left is true, so right should never be evaluated
+            expect(evaluate({ element: { tag: 'button' } })).equal(true);
+        });
     });
 
     describe('syntax errors', () => {
