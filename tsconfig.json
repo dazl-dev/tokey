@@ -9,6 +9,7 @@
     { "path": "./packages/css-value-parser/src" },
     { "path": "./packages/imports-parser/src" },
     { "path": "./packages/url-tokenizer/src" },
+    { "path": "./packages/expression-evaluator/src" },
     { "path": "./packages/experiments/src" },
   ]
 }
