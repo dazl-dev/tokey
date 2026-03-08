@@ -194,7 +194,13 @@ describe('expression-evaluator', () => {
                 "Access to 'document' is not allowed",
             );
         });
-
+        it('blocks non-number comparisons', () => {
+            const evaluate = compileExpression('element.tag > 0');
+            expect(() => evaluate({ element: { tag: 'button' } })).to.throw(
+                ExpressionSecurityError,
+                "Comparison operator '>' can only be used with numbers",
+            );
+        });
         it('blocks non-allowed methods', () => {
             const evaluate = compileExpression("element.tag.replace('a', 'b')");
             expect(() => evaluate({ element: { tag: 'button' } })).to.throw(
@@ -279,15 +285,19 @@ describe('expression-evaluator', () => {
     });
 
     describe('validateExpressionSyntax', () => {
-        it('returns null for valid expressions', () => {
-            expect(validateExpressionSyntax("element.tag === 'button'")).to.equal(null);
-            expect(validateExpressionSyntax("['a', 'b'].includes(element.tag)")).to.equal(null);
-            expect(validateExpressionSyntax('true')).to.equal(null);
+        it('returns success object for valid expressions', () => {
+            expect(validateExpressionSyntax("element.tag === 'button'")).to.deep.equal({
+                isValid: true,
+            });
+            expect(validateExpressionSyntax("['a', 'b'].includes(element.tag)")).to.deep.equal({
+                isValid: true,
+            });
+            expect(validateExpressionSyntax('true')).to.deep.equal({ isValid: true });
         });
 
         it('returns error message for invalid expressions', () => {
-            expect(validateExpressionSyntax('===')).not.to.equal(null);
-            expect(validateExpressionSyntax('element.tag ===  ')).not.to.equal(null);
+            expect(validateExpressionSyntax('===')).to.contain({ isValid: false });
+            expect(validateExpressionSyntax('element.tag ===  ')).to.contain({ isValid: false });
         });
     });
 });

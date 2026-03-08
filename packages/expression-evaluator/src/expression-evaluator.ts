@@ -197,7 +197,10 @@ function tokenize(expression: string): Token[] {
 // ─── AST nodes ──────────────────────────────────────────────────────────
 
 type AstNode =
-    | { type: 'literal'; value: string | number | boolean | null }
+    | { type: 'string'; value: string }
+    | { type: 'number'; value: number }
+    | { type: 'boolean'; value: boolean }
+    | { type: 'null'; value: null }
     | { type: 'identifier'; name: string }
     | { type: 'memberAccess'; object: AstNode; property: string }
     | { type: 'arrayLiteral'; elements: AstNode[] }
@@ -207,6 +210,8 @@ type AstNode =
     | { type: 'parenthesized'; expression: AstNode };
 
 // ─── Parser ─────────────────────────────────────────────────────────────
+
+const COMP_OPS = new Set(['===', '!==', '==', '!=', '>', '<', '>=', '<=']);
 
 class Parser {
     private tokens: Token[];
@@ -261,8 +266,7 @@ class Parser {
 
     private parseComparison(): AstNode {
         let left = this.parseUnary();
-        const compOps = ['===', '!==', '==', '!=', '>', '<', '>=', '<='];
-        while (this.peek().type === 'operator' && compOps.includes(this.peek().value)) {
+        while (this.peek().type === 'operator' && COMP_OPS.has(this.peek().value)) {
             const op = this.consume().value;
             const right = this.parseUnary();
             left = { type: 'binaryOp', operator: op, left, right };
@@ -317,16 +321,16 @@ class Parser {
         switch (token.type) {
             case 'string':
                 this.consume();
-                return { type: 'literal', value: token.value };
+                return { type: 'string', value: token.value };
             case 'number':
                 this.consume();
-                return { type: 'literal', value: Number(token.value) };
+                return { type: 'number', value: Number(token.value) };
             case 'boolean':
                 this.consume();
-                return { type: 'literal', value: token.value === 'true' };
+                return { type: 'boolean', value: token.value === 'true' };
             case 'null':
                 this.consume();
-                return { type: 'literal', value: null };
+                return { type: 'null', value: null };
             case 'identifier':
                 this.consume();
                 return { type: 'identifier', name: token.value };
@@ -359,7 +363,10 @@ class Parser {
 
 function evaluateNode<T extends Record<string, unknown>>(node: AstNode, context: T): unknown {
     switch (node.type) {
-        case 'literal':
+        case 'string':
+        case 'number':
+        case 'boolean':
+        case 'null':
             return node.value;
 
         case 'identifier': {
@@ -419,13 +426,19 @@ function evaluateNode<T extends Record<string, unknown>>(node: AstNode, context:
                 case '!=':
                     return left != right;
                 case '>':
-                    return (left as number) > (right as number);
                 case '<':
-                    return (left as number) < (right as number);
                 case '>=':
-                    return (left as number) >= (right as number);
-                case '<=':
-                    return (left as number) <= (right as number);
+                case '<=': {
+                    if (typeof left !== 'number' || typeof right !== 'number') {
+                        throw new ExpressionSecurityError(
+                            `Comparison operator '${node.operator}' can only be used with numbers`,
+                        );
+                    }
+                    if (node.operator === '>') return left > right;
+                    if (node.operator === '<') return left < right;
+                    if (node.operator === '>=') return left >= right;
+                    return left <= right;
+                }
                 default:
                     throw new ExpressionSyntaxError(`Unknown operator: '${node.operator}'`);
             }
@@ -496,15 +509,18 @@ export function safeEvaluateExpression<T extends Record<string, unknown>>(
 
 /**
  * Validates expression syntax without evaluating.
- * Returns null if valid, or the error message if invalid.
+ * Returns an object indicating if it's valid, and an error message if not.
  */
-export function validateExpressionSyntax(expression: string): string | null {
+export function validateExpressionSyntax(expression: string): { isValid: boolean; error?: string } {
     try {
         const tokens = tokenize(expression);
         const parser = new Parser(tokens);
         parser.parse();
-        return null;
+        return { isValid: true };
     } catch (error) {
-        return error instanceof Error ? error.message : 'Invalid expression';
+        return {
+            isValid: false,
+            error: error instanceof Error ? error.message : 'Invalid expression',
+        };
     }
 }
