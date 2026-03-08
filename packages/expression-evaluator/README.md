@@ -25,7 +25,7 @@ const result = evaluate(context); // true
 // Evaluate once safely (returns false on parse/evaluation errors)
 const isMatch = safeEvaluateExpression("element.tag === 'div'", context); // false
 
-// Validate syntax without evaluating (returns null if valid, error message if invalid)
-const error = validateExpressionSyntax("element.tag ==="); // "Unexpected token: ''"
-const valid = validateExpressionSyntax("element.tag === 'div'"); // null
+// Validate syntax without evaluating (returns object with isValid boolean and optional error message)
+const validationError = validateExpressionSyntax("element.tag ==="); // { isValid: false, error: "Unexpected token: ''" }
+const validationSuccess = validateExpressionSyntax("element.tag === 'div'"); // { isValid: true }
 ```
