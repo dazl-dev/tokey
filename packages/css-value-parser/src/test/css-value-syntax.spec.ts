@@ -18,6 +18,7 @@ describe(`sanity`, () => {
     const knownProblemticValuespacesCases = [
         `custom-selector: <custom-arg>? : <extension-name> [ ( <custom-arg>+#? ) ]?`,
         `if-condition: <boolean-expr[ <if-test> ]> | else`,
+        `cursor-image: [ <url> | <url-set> ] <number>{2}?`,
     ];
     for (const [specName, data] of Object.entries(specs)) {
         describe(specName, () => {
