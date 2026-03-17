@@ -243,7 +243,7 @@ function parseTokens(tokens: ValueSyntaxToken[], source: string) {
                                 }
                             }
                         }
-                        name = name + source.substring(bracketStart, bracketEnd);
+                        name = `${name}${source.substring(bracketStart, bracketEnd)}`;
                         const closeAngle = s.eat('space').take('>');
                         if (closeAngle) {
                             closed = true;
