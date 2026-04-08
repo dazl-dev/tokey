@@ -194,7 +194,7 @@ function parseTokens(tokens: ValueSyntaxToken[], source: string) {
                 throw new Error('missing data type name');
             }
             s.back();
-            const name = getText(nameBlock, undefined, undefined, source);
+            let name = getText(nameBlock, undefined, undefined, source);
 
             const type = getLiteralValueType(name);
             let range: Range | undefined;
@@ -205,18 +205,49 @@ function parseTokens(tokens: ValueSyntaxToken[], source: string) {
                 if (t.type === '>') {
                     closed = true;
                 } else if (t.type === '[') {
-                    const min = s.eat('space').take('text');
-                    const sep = s.eat('space').take(',');
-                    const max = s.eat('space').take('text');
-                    const end = s.eat('space').take(']');
-                    if (min && sep && max && end) {
-                        range = [parseNumber(min.value), parseNumber(max.value)];
+                    // Check if content after [ is a numeric range or a type constraint
+                    let peekOffset = 1;
+                    while (s.peek(peekOffset).type === 'space') peekOffset++;
+                    const firstContentToken = s.peek(peekOffset);
+
+                    if (firstContentToken.type === 'text') {
+                        // Numeric range: [min, max]
+                        const min = s.eat('space').take('text');
+                        const sep = s.eat('space').take(',');
+                        const max = s.eat('space').take('text');
+                        const end = s.eat('space').take(']');
+                        if (min && sep && max && end) {
+                            range = [parseNumber(min.value), parseNumber(max.value)];
+                        } else {
+                            throw new Error('Invalid range');
+                        }
+                        const closeAngle = s.eat('space').take('>');
+                        if (closeAngle) {
+                            closed = true;
+                        }
                     } else {
-                        throw new Error('Invalid range');
-                    }
-                    const t = s.eat('space').take('>');
-                    if (t) {
-                        closed = true;
+                        // Type constraint like [ <if-test> ]
+                        let depth = 1;
+                        const bracketStart = t.start;
+                        let bracketEnd = t.end;
+                        while (depth > 0) {
+                            const tok = s.next();
+                            if (!tok.type) {
+                                throw new Error('missing "]"');
+                            }
+                            if (tok.type === '[') depth++;
+                            if (tok.type === ']') {
+                                depth--;
+                                if (depth === 0) {
+                                    bracketEnd = tok.end;
+                                }
+                            }
+                        }
+                        name = `${name}${source.substring(bracketStart, bracketEnd)}`;
+                        const closeAngle = s.eat('space').take('>');
+                        if (closeAngle) {
+                            closed = true;
+                        }
                     }
                 }
             }
@@ -280,9 +311,15 @@ function parseTokens(tokens: ValueSyntaxToken[], source: string) {
             }
             node.multipliers ??= {};
             if (node.multipliers.range) {
-                throw new Error('multiple multipliers on same node');
+                if (token.type === '?') {
+                    // ? after existing range modifier makes it optional (min becomes 0)
+                    node.multipliers.range = [0, node.multipliers.range[1]];
+                } else {
+                    throw new Error('multiple multipliers on same node');
+                }
+            } else {
+                node.multipliers.range = typeToRange(token.type);
             }
-            node.multipliers.range = typeToRange(token.type);
         } else if (token.type === '{') {
             if (s.peekBack().type === 'space') {
                 ast.push(literal(token.value, false));
