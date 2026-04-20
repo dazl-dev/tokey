@@ -276,14 +276,12 @@ function handleToken(
             invalid = invalid ? `namespace,target` : `target`;
         }
         // create new ast or modify the prev
-        const nsAst: NamespacedNode =
-            prevAst ||
-            ({
-                type,
-                value: ``,
-                start: token.start,
-                end: target?.end || token.end,
-            } as NamespacedNode);
+        const nsAst: NamespacedNode = prevAst || {
+            type,
+            value: ``,
+            start: token.start,
+            end: target?.end || token.end,
+        };
         nsAst.type = type;
         nsAst.namespace = {
             value: prevAst?.value || ``,

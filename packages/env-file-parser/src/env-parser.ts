@@ -354,9 +354,7 @@ export function addVariableToAST(
         key,
         value,
         quotedWith: null,
-        comment: description
-            ? ({ type: 'Comment', id: generateId(), text: description } as CommentNode)
-            : undefined,
+        comment: description ? { type: 'Comment', id: generateId(), text: description } : undefined,
         beforeComment: beforeCommentNode,
     };
 
