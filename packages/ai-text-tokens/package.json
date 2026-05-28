@@ -1,0 +1,41 @@
+{
+  "name": "@tokey/dazl-text-tokens",
+  "description": "A tokenizer for parsing URLs and text tokens, including support for markdown links and secret tags.",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./dist/text-tokenizer.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "test": "mocha \"./dist/test/**/*.spec.js\""
+  },
+  "dependencies": {
+    "@tokey/core": "^1.4.0"
+  },
+  "keywords": [
+    "tokenizer",
+    "text-processing",
+    "url-detection",
+    "ai-tokens",
+    "markdown-links",
+    "secret-parsing",
+    "text-analysis"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "!*/test",
+    "!*/tsconfig.{json,tsbuildinfo}"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Dazl",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dazl-dev/tokey.git",
+    "directory": "packages/ai-text-tokens"
+  }
+}
