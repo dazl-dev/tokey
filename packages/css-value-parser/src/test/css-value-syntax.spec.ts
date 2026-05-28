@@ -1,6 +1,5 @@
 import { parseValueSyntax } from '@tokey/css-value-parser';
 import { expect } from 'chai';
-//TODO: fixme
 import {
     bar,
     dataType,
@@ -15,11 +14,6 @@ import {
 import specs from '@webref/css/css.json' with { type: 'json' };
 
 describe(`sanity`, () => {
-    const knownProblemticValuespacesCases = [
-        `custom-selector: <custom-arg>? : <extension-name> [ ( <custom-arg>+#? ) ]?`,
-        `if-condition: <boolean-expr[ <if-test> ]> | else`,
-        `cursor-image: [ <url> | <url-set> ] <number>{2}?`,
-    ];
     for (const [specName, data] of Object.entries(specs)) {
         describe(specName, () => {
             for (const { name, syntax } of data) {
@@ -27,9 +21,6 @@ describe(`sanity`, () => {
                     continue;
                 }
                 const title = `${name}: ${syntax}`;
-                if (knownProblemticValuespacesCases.includes(title)) {
-                    continue;
-                }
                 it(title, () => {
                     parseValueSyntax(syntax);
                 });
@@ -60,6 +51,12 @@ describe('value-syntax-parser', () => {
             expect(parseValueSyntax(`<'name' [ 1 , 1000 ] >`)).to.eql(property('name', [1, 1000]));
             expect(parseValueSyntax(`<'name' [ -∞ , ∞ ] >`)).to.eql(
                 property('name', [-Infinity, Infinity]),
+            );
+        });
+
+        it('should parse data-type with type constraint', () => {
+            expect(parseValueSyntax(`<boolean-expr[ <if-test> ]>`)).to.eql(
+                dataType('boolean-expr[ <if-test> ]'),
             );
         });
     });
@@ -165,6 +162,14 @@ describe('value-syntax-parser', () => {
             );
             expect(parseValueSyntax(`[a]{2}`)).to.eql(group([keyword('a')], { range: [2, 2] }));
             expect(parseValueSyntax(`[a]{2, 4}`)).to.eql(group([keyword('a')], { range: [2, 4] }));
+        });
+        it('optional modifier after range multiplier', () => {
+            expect(parseValueSyntax(`<name>{2}?`)).to.eql(
+                dataType('name', undefined, { range: [0, 2] }),
+            );
+            expect(parseValueSyntax(`<name>+#?`)).to.eql(
+                dataType('name', undefined, { range: [0, Infinity], list: true }),
+            );
         });
     });
 
