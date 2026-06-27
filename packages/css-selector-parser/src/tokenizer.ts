@@ -11,22 +11,7 @@ import {
 import type { Token, Descriptors } from '@tokey/core';
 
 type Delimiters =
-    | '['
-    | ']'
-    | '('
-    | ')'
-    | ','
-    | '*'
-    | '|'
-    | ':'
-    | '.'
-    | '#'
-    | '>'
-    | '~'
-    | '+'
-    | '{'
-    | '}'
-    | '&';
+    '[' | ']' | '(' | ')' | ',' | '*' | '|' | ':' | '.' | '#' | '>' | '~' | '+' | '{' | '}' | '&';
 
 export type CSSSelectorToken = Token<Descriptors | Delimiters>;
 

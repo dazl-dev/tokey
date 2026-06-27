@@ -111,13 +111,7 @@ export interface CompoundSelector extends Omit<Token<'compound_selector'>, 'valu
 }
 
 export type FunctionalSelector =
-    | NamespacedNode
-    | Attribute
-    | Id
-    | Class
-    | PseudoClass
-    | PseudoElement
-    | Nesting;
+    NamespacedNode | Attribute | Id | Class | PseudoClass | PseudoElement | Nesting;
 
 export type SelectorNode =
     | FunctionalSelector

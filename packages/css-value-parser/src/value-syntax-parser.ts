@@ -3,20 +3,7 @@ import { Seeker, createToken, getText, last, tokenize, type Token } from '@tokey
 type RangeMultipliers = '!' | '?' | '+' | '*';
 
 type Delimiters =
-    | '<'
-    | '>'
-    | '['
-    | ']'
-    | ','
-    | '/'
-    | '|'
-    | '&'
-    | '#'
-    | '('
-    | ')'
-    | '{'
-    | '}'
-    | RangeMultipliers;
+    '<' | '>' | '[' | ']' | ',' | '/' | '|' | '&' | '#' | '(' | ')' | '{' | '}' | RangeMultipliers;
 
 /**
  * Add comments
