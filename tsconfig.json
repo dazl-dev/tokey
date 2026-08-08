@@ -4,6 +4,7 @@
     { "path": "./demos/client" },
     { "path": "./packages/core/src" },
     { "path": "./packages/test-kit/src" },
+    { "path": "./packages/ai-text-tokens/src" },
     { "path": "./packages/env-file-parser/src" },
     { "path": "./packages/css-selector-parser/src" },
     { "path": "./packages/css-value-parser/src" },
